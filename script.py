@@ -1,28 +1,36 @@
 import subprocess
 import os
 import sys
-from tidalapi.page import PageItem, PageLink
-from tidalapi.mix import Mix
 import tidalapi
+
+if len(sys.argv) < 2:
+    print("At least 1 argument needed!")
+    exit()
 
 session = tidalapi.Session()
 
 login, future = session.login_oauth()
-subprocess.run(["firefox", login.verification_uri_complete])
+print("Visit:", "https://" + login.verification_uri_complete, "to authenticate.")
 
 future.result()
 
+print()
+print("Searching...")
 i = 0
 certainIds = open("certain_ids.txt", "w") #Clears the file everytime the script runs
 uncertainIds = open("uncertain_ids.txt", "w") #Clears the file everytime the script runs
 uncertainAlbums = open("uncertain_albums.txt", "w") #Clears the file everytime the script runs
 notFound = open("not_found.txt", "w") #Clears the file everytime the script runs
 
-for artist in os.listdir(sys.argv[1]):
-    for a in os.listdir(sys.argv[1] + artist):
+dir = ""
+if sys.argv[1][len(sys.argv[1]) - 1] != '/':
+    dir = sys.argv[1] + '/'
+else:
+    dir = sys.argv[1]
+
+for artist in os.listdir(dir):
+    for a in os.listdir(dir + artist):
         album = a[0:a.find("[") - 1]
-        if "-" in album:
-            print(album)
         year = a[a.find("[") + 1:a.find("]")]
         home = session.search(artist + " " + album)
         if len(home["albums"]) > 0:
@@ -72,4 +80,5 @@ certainIds.close()
 uncertainIds.close()
 uncertainAlbums.close()
 notFound.close()
-print(i)
+print()
+print("Found: ", i)
