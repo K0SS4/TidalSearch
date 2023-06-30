@@ -15,7 +15,7 @@ pip3 install tidalapi
 To run it: `python3 script.py path/to/Library`  
   
 After a successful run you shoud find any of these files:
-- certainI_ids.txt - Ids matched by artist, album and year
+- certain_ids.txt - Ids matched by artist, album and year
 - uncertain_ids.txt - Ids matched by album and year
-- uncertain_albums.txt - List of artists and their albums that are on the uncertainIds.txt list
+- uncertain_albums.txt - List of artists and their albums that are on the uncertain_ids.txt list
 - not_found.txt - List of artists and their albums that were not found
